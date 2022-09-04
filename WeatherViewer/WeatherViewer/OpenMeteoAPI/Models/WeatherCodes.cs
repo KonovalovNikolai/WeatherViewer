@@ -1,5 +1,5 @@
 ﻿namespace OpenMeteoApi {
-    public enum WeatherCode {
+    public enum WeatherCodes {
         // Clear
         ClearSky = 0,
         // Clouds

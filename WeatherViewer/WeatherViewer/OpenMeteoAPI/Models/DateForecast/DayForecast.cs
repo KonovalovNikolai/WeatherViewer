@@ -2,7 +2,7 @@
 
 namespace OpenMeteoApi {
     public class DayForecast {
-        public DayForecast(DateTime time, WeatherCode weather, float maxTemperature, float minTemperature, float precipitationSum, float windSpeed, float windDirection) {
+        public DayForecast(DateTime time, WeatherCodes weather, float maxTemperature, float minTemperature, float precipitationSum, float windSpeed, float windDirection) {
             Time = time;
             Weather = weather;
             MaxTemperature = maxTemperature;
@@ -13,7 +13,7 @@ namespace OpenMeteoApi {
         }
 
         public DateTime Time { get; private set; }
-        public WeatherCode Weather { get; private set; }
+        public WeatherCodes Weather { get; private set; }
         public float MaxTemperature { get; private set; }
         public float MinTemperature { get; private set; }
         public float PrecipitationSum { get; private set; }

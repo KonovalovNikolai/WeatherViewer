@@ -25,7 +25,7 @@ namespace OpenMeteoApi.Service {
                     DateTime.Parse(TimeArray[i]),
                     TemperatureArray[i],
                     RelativeHumidityArray[i],
-                    (WeatherCode)WeatherCodeArray[i]
+                    (WeatherCodes)WeatherCodeArray[i]
                 );
             }
 

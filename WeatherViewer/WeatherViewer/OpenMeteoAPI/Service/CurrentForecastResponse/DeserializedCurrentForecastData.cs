@@ -12,7 +12,7 @@ namespace OpenMeteoApi.Service {
         public CurrentForecast Convert() {
             return new CurrentForecast(
                 Temperature,
-                (WeatherCode)WeatherCode
+                (WeatherCodes)WeatherCode
             );
         }
     }

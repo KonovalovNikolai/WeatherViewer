@@ -28,7 +28,7 @@ namespace OpenMeteoApi.Service {
         public DayForecast Convert() {
             return new DayForecast(
                     DateTime.Parse(Time[0]),
-                    (WeatherCode)Weathercode[0],
+                    (WeatherCodes)Weathercode[0],
                     MaxTemperature[0],
                     MinTemperature[0],
                     PrecipitationSum[0],

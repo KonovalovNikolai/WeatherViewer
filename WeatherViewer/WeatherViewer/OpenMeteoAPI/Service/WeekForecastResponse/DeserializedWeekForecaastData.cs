@@ -24,7 +24,7 @@ namespace OpenMeteoApi.Service
             for (int i = 0; i < daysArray.Length; i++)
             {
                 daysArray[i] = new WeekDayForecast(
-                    (WeatherCode)WeatherCodeArray[i],
+                    (WeatherCodes)WeatherCodeArray[i],
                     DateTime.Parse(TimeArray[i]),
                     MaxTemperatureArray[i],
                     MinTemperatureArray[i]
