@@ -1,10 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:local="clr-namespace:WeatherViewer"
              x:Class="WeatherViewer.MainPage">
-
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:WeatherCodeToIconPathConverter x:Key="IconConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <StackLayout>
         <Label Text="{Binding Path=CurrentForecast.Temperature}" FontSize="Title"/>
+        <Image Source="{Binding Path=CurrentForecast.WeatherCode,Converter={StaticResource IconConverter}}"/>
     </StackLayout>
 
 </ContentPage>
