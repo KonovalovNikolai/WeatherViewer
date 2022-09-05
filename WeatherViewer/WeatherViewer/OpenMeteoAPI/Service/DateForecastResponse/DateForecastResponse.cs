@@ -8,6 +8,20 @@ namespace OpenMeteoApi.Service {
         [JsonPropertyName("daily")]
         public DeserializedDayForecastData DayForecastData { get; set; }
 
-        public DateForecast ToModel() => new DateForecast(DayForecastData.Convert(), HourlyForecastData.Convert());
+        public DateForecast ToModel() {
+            var houlryForecast = HourlyForecastData.Convert();
+            var dayForecast = DayForecastData.Convert();
+
+            return new DateForecast(
+                dayForecast.Time,
+                dayForecast.Weather,
+                dayForecast.MaxTemperature,
+                dayForecast.MinTemperature,
+                dayForecast.PrecipitationSum,
+                dayForecast.WindSpeed,
+                dayForecast.WindDirection,
+                houlryForecast
+            );
+        }
     }
 }
