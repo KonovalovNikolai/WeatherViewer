@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WeatherViewer.App">
     <Application.Resources>
-
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="Nunito"/>
+        </Style>
     </Application.Resources>
 </Application>

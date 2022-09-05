@@ -8,9 +8,17 @@
             <local:WeatherCodeToIconPathConverter x:Key="IconConverter"/>
         </ResourceDictionary>
     </ContentPage.Resources>
-    <StackLayout>
-        <Label Text="{Binding Path=CurrentForecast.Temperature}" FontSize="Title"/>
-        <Image Source="{Binding Path=CurrentForecast.WeatherCode,Converter={StaticResource IconConverter}}"/>
-    </StackLayout>
+    <ScrollView BackgroundColor="#011018">
+        <!--Отображение текущей температуры и названия города-->
+        <StackLayout Padding="0, 30, 0, 40">
+            <Label Text="Таганрог" HorizontalOptions="Center" FontSize="16" FontFamily="Nunito-Light"/>
+            <FlexLayout Direction="Row" JustifyContent="Center">
+                <Label Text="{Binding Path=CurrentForecast.Temperature}" FontSize="60"/>
+                <Label Text="°С" FontSize="30"/>
+            </FlexLayout>
+        </StackLayout>
+        <!--Отображение списка прогноза погоды на неделю-->
+        <!--Отображение прогноза погоды на выбранный день-->
+    </ScrollView>
 
 </ContentPage>
