@@ -18,7 +18,7 @@ namespace WeatherViewer {
         }
 
         protected override void OnAppearing() {
-            _ = _viewModel.GetCurrentForecast(47.21f, 38.94f);
+            _ = _viewModel.GetForecast(47.21f, 38.94f);
         }
     }
 }

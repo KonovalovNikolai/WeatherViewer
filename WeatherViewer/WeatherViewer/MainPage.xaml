@@ -1,24 +1,66 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:local="clr-namespace:WeatherViewer"
+             xmlns:local="clr-namespace:WeatherViewer.Converters"
              x:Class="WeatherViewer.MainPage">
     <ContentPage.Resources>
         <ResourceDictionary>
             <local:WeatherCodeToIconPathConverter x:Key="IconConverter"/>
+            <local:DateTimeToWeekDayConverter x:Key="WeekDayConverter"/>
+
+            <Style Class="Grey" TargetType="Label">
+                <Setter Property="TextColor" Value="#CECECE"/>
+            </Style>
+
+            <Style Class="Light" TargetType="Label">
+                <Setter Property="FontFamily" Value="#Nunito-Light"/>
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ScrollView BackgroundColor="#011018">
-        <!--Отображение текущей температуры и названия города-->
-        <StackLayout Padding="0, 30, 0, 40">
-            <Label Text="Таганрог" HorizontalOptions="Center" FontSize="16" FontFamily="Nunito-Light"/>
-            <FlexLayout Direction="Row" JustifyContent="Center">
-                <Label Text="{Binding Path=CurrentForecast.Temperature}" FontSize="60"/>
-                <Label Text="°С" FontSize="30"/>
-            </FlexLayout>
+        <StackLayout>
+            <!--Отображение текущей температуры и названия города-->
+            <StackLayout Padding="0, 30, 0, 40">
+                <Label Text="Таганрог" HorizontalOptions="Center" FontSize="16" StyleClass="Light"/>
+                <FlexLayout Direction="Row" JustifyContent="Center">
+                    <Label Text="{Binding Path=CurrentForecast.Temperature}" FontSize="60"/>
+                    <Label Text="°С" FontSize="30"/>
+                </FlexLayout>
+            </StackLayout>
+            <!--Отображение списка прогноза погоды на неделю-->
+            <ListView
+                SeparatorColor="#13FFFFFF"
+                ItemsSource="{Binding Path=WeekForecast.WeekDaysForecast}" 
+                Margin="10, 0">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <FlexLayout Direction="Row" JustifyContent="Center" AlignItems="Center">
+                                    <FlexLayout.Resources>
+                                        <ResourceDictionary>
+                                            <Style TargetType="Label">
+                                                <Setter Property="FontSize" Value="16"/>
+                                                <Setter Property="FontFamily" Value="Nunito-Light"/>
+                                            </Style>
+                                        </ResourceDictionary>
+                                    </FlexLayout.Resources>
+                                    <Label Text="{Binding DateTime, Converter={StaticResource WeekDayConverter}}" FlexLayout.Grow="1"/>
+                                    <Image Source="{Binding Weather, Converter={StaticResource IconConverter}}" HeightRequest="32" WidthRequest="32"/>
+                                    <FlexLayout FlexLayout.Grow="1" Direction="Row" AlignItems="Center" JustifyContent="End">
+                                        <Label Text="{Binding MaxTemperature}"/>
+                                        <Label Text="/" StyleClass="Grey"/>
+                                        <Label Text="{Binding MinTemperature}" StyleClass="Grey"/>
+                                        <Label Text="°С"/>
+                                    </FlexLayout>
+                                </FlexLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <!--Отображение прогноза погоды на выбранный день-->
         </StackLayout>
-        <!--Отображение списка прогноза погоды на неделю-->
-        <!--Отображение прогноза погоды на выбранный день-->
     </ScrollView>
 
 </ContentPage>

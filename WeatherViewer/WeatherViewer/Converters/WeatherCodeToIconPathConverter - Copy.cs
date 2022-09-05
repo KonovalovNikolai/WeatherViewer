@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Text;
 using Xamarin.Forms;
 
-namespace WeatherViewer {
+namespace WeatherViewer.Converters {
     public class WeatherCodeToIconPathConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             const string ICON_FORMAT = ".png";

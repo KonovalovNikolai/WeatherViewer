@@ -5,6 +5,7 @@
     <Application.Resources>
         <Style TargetType="Label">
             <Setter Property="FontFamily" Value="Nunito"/>
+            <Setter Property="TextColor" Value="White"/>
         </Style>
     </Application.Resources>
 </Application>

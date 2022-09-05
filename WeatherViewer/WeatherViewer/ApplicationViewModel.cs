@@ -18,12 +18,22 @@ namespace WeatherViewer {
             }
         }
 
+        private WeekForecast _weekForecast;
+        public WeekForecast WeekForecast {
+            get => _weekForecast;
+            set {
+                _weekForecast = value;
+                OnPropertyChanged("WeekForecast");
+            }
+        }
+
         private bool _isBuisy;
 
-        public async Task GetCurrentForecast(float lat, float lon) {
+        public async Task GetForecast(float lat, float lon) {
             if (_isBuisy) return;
             _isBuisy = true;
             CurrentForecast = await OpenMeteoAPI.GetCurrentWeatherAsync(lat, lon);
+            WeekForecast = await OpenMeteoAPI.GetWeekForecastAsync(lat, lon);
             _isBuisy = false;
         }
 

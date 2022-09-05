@@ -1,9 +1,9 @@
 ﻿namespace OpenMeteoApi {
     public class WeekForecast {
         public WeekForecast(WeekDayForecast[] dayWeathers) {
-            DayWeathers = dayWeathers;
+            WeekDaysForecast = dayWeathers;
         }
 
-        public WeekDayForecast[] DayWeathers { get; private set; }
+        public WeekDayForecast[] WeekDaysForecast { get; private set; }
     }
 }
