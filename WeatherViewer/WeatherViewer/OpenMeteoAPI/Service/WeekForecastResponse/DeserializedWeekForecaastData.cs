@@ -21,6 +21,7 @@ namespace OpenMeteoApi.Service
         public WeekForecast Convert()
         {
             var daysArray = new WeekDayForecast[TimeArray.Count];
+            // Обрабатываем на один день меньше, из-за неплного прогноза на седьмой день
             for (int i = 0; i < daysArray.Length - 1; i++)
             {
                 daysArray[i] = new WeekDayForecast(
