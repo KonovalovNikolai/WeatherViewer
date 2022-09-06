@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenMeteoApi;
+using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace WeatherViewer {
 
         private Geolocator _geolocator;
         private ContentLoadController _mainContentLoadController;
+        private ContentLoadController _dateForecastLoadController;
         private ErrorMessageController _errorMessageController;
 
 
@@ -20,7 +22,9 @@ namespace WeatherViewer {
             _viewModel = new ApplicationViewModel();
 
             _geolocator = new Geolocator();
+
             _mainContentLoadController = new ContentLoadController(ContentLoadIndicator, MainContent);
+            _dateForecastLoadController = new ContentLoadController(DateForecastLoadIndicator, DateForecast);
 
             _errorMessageController = new ErrorMessageController(
                 (val) => ErrorContainer.IsVisible = val,
@@ -34,6 +38,15 @@ namespace WeatherViewer {
             _ = LoadForecast();
         }
 
+        private async void OnItemTapped(object sender, ItemTappedEventArgs e) {
+            Console.WriteLine(e.Item);
+            var item = e.Item as WeekDayForecast;
+
+            _dateForecastLoadController.ShowLoadIndicator();
+            await _viewModel.GetDateForecast(item.DateTime);
+            _dateForecastLoadController.ShowElement();
+        }
+
         private async Task LoadForecast() {
             _mainContentLoadController.ShowLoadIndicator();
 
@@ -42,7 +55,7 @@ namespace WeatherViewer {
                 (latitude, longitude) = await _geolocator.TryGetLocation();
             }
             catch (Exception ex) {
-                HandleGeolocationException(ex);
+                HandleException(ex);
                 return;
             }
 
@@ -50,7 +63,7 @@ namespace WeatherViewer {
             _mainContentLoadController.ShowElement();
         }
 
-        private void HandleGeolocationException(Exception exception) {
+        private void HandleException(Exception exception) {
             _mainContentLoadController.HideAll();
             Debug.WriteLine(exception.Message);
             switch (exception) {

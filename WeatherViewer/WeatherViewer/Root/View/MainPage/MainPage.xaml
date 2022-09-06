@@ -40,10 +40,13 @@
 
                 <!--Отображение списка прогноза погоды на неделю-->
                 <ListView
-                HeightRequest="320"
-                SeparatorColor="#13FFFFFF"
-                ItemsSource="{Binding Path=WeekForecast.WeekDaysForecast}" 
-                Margin="10, 0, 10, 0">
+                    HeightRequest="320"
+                    SeparatorColor="#13FFFFFF"
+                    ItemsSource="{Binding Path=WeekForecast.WeekDaysForecast}" 
+                    Margin="10, 0, 10, 0"
+                    SelectionMode="None"
+                    ItemTapped="OnItemTapped">
+                    
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="OpenMeteo:WeekDayForecast">
                             <ViewCell>
@@ -73,7 +76,8 @@
                 </ListView>
 
                 <!--Отображение прогноза погоды на выбранный день-->
-                <StackLayout Orientation="Vertical" Margin="10, 0">
+                <ActivityIndicator x:Name="DateForecastLoadIndicator"/>
+                <StackLayout x:Name="DateForecast" Orientation="Vertical" Margin="10, 0">
                     <!--Отображение даты и температур-->
                     <FlexLayout Direction="Row">
                         <FlexLayout.Resources>
@@ -91,11 +95,11 @@
                     </FlexLayout>
 
                     <!--Почасовой прогноза погоды-->
-                    <CollectionView 
-                    ItemsSource="{Binding Path=DateForecast.HourlyForecasts}" 
-                    ItemsLayout="HorizontalList" 
-                    HeightRequest="90"
-                    Margin="-15, 10, -15, 10">
+                    <CollectionView
+                        ItemsSource="{Binding Path=DateForecast.HourlyForecasts}" 
+                        ItemsLayout="HorizontalList" 
+                        HeightRequest="90"
+                        Margin="-15, 10, -15, 10">
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="OpenMeteo:HourForecast">
                                 <FlexLayout Direction="Column" AlignItems="Center" Margin="5, 0">

@@ -9,9 +9,6 @@ using Xamarin.Forms;
 
 namespace WeatherViewer.Root {
     public class Geolocator {
-        private const string LATITUDE_PROPERTY_KEY = "LastLocationLatitude";
-        private const string LONGITUDE_PROPERTY_KEY = "LastLocationLongitude";
-
         private CancellationTokenSource _CTS;
 
         public async Task<bool> IsGpsPermissionGranted() {

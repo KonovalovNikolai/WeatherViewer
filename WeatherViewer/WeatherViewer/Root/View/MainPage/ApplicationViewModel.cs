@@ -5,10 +5,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Essentials;
 
 namespace WeatherViewer {
     public class ApplicationViewModel : INotifyPropertyChanged {
+        private double _latitude;
+        private double _longitude;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public CancellationTokenSource APICTS { get; private set; }
@@ -40,6 +44,15 @@ namespace WeatherViewer {
             }
         }
 
+        private WeekDayForecast _selectedDay;
+        public WeekDayForecast SelectedDay {
+            get => _selectedDay;
+            set { 
+                _selectedDay = value;
+                OnPropertyChanged(nameof(SelectedDay));
+            }
+        }
+
         private DateForecast _dateForecast;
         public DateForecast DateForecast {
             get => _dateForecast;
@@ -55,10 +68,23 @@ namespace WeatherViewer {
             if (_isBuisy) return;
             _isBuisy = true;
 
+            _latitude = latitude;
+            _longitude = longitude;
+
             CurrentForecast = await OpenMeteoAPI.GetCurrentWeatherAsync(latitude, longitude);
             WeekForecast = await OpenMeteoAPI.GetWeekForecastAsync(latitude, longitude);
+            _selectedDay = WeekForecast.WeekDaysForecast[0];
             DateForecast = await OpenMeteoAPI.GetDateWeatherAsync(latitude, longitude, DateTime.Now);
             
+            _isBuisy = false;
+        }
+
+        public async Task GetDateForecast(DateTime date) {
+            if (_isBuisy)
+                return;
+
+            _isBuisy = true;
+            DateForecast = await OpenMeteoAPI.GetDateWeatherAsync(_latitude, _longitude, date);
             _isBuisy = false;
         }
 
