@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using WeatherViewer.Root;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -9,15 +10,22 @@ namespace WeatherViewer {
     public partial class MainPage : ContentPage {
         private ApplicationViewModel _viewModel;
 
+        private Geolocator _geolocator;
         private ContentLoadController _mainContentLoadController;
+        private ErrorMessageController _errorMessageController;
 
-        private CancellationTokenSource _geoLocationCTS;
 
         public MainPage() {
             InitializeComponent();
             _viewModel = new ApplicationViewModel();
 
+            _geolocator = new Geolocator();
             _mainContentLoadController = new ContentLoadController(ContentLoadIndicator, MainContent);
+
+            _errorMessageController = new ErrorMessageController(
+                (val) => ErrorContainer.IsVisible = val,
+                (mes) => ErrorLable.Text = mes
+            );
 
             BindingContext = _viewModel;
         }
@@ -29,70 +37,40 @@ namespace WeatherViewer {
         private async Task LoadForecast() {
             _mainContentLoadController.ShowLoadIndicator();
 
-            Location location;
+            (double latitude, double longitude) = (0, 0);
             try {
-                location = await TryGetLocation();
+                (latitude, longitude) = await _geolocator.TryGetLocation();
             }
             catch (Exception ex) {
-                _mainContentLoadController.HideAll();
                 HandleGeolocationException(ex);
                 return;
             }
 
-            await _viewModel.GetForecast(location.Latitude, location.Longitude);
+            await _viewModel.GetForecast(latitude, longitude);
             _mainContentLoadController.ShowElement();
         }
 
-
-        private async Task<Location> TryGetLocation() {
-            Location location;
-            location = await TryGetLastLocation();
-
-            if (location != null)
-                return location;
-
-            location = await TryGetCurrentLocation();
-            return location;
-        }
-
-        private async Task<Location> TryGetLastLocation() {
-            Location location;
-            location = await Geolocation.GetLastKnownLocationAsync();
-
-            return location;
-        }
-
-        private async Task<Location> TryGetCurrentLocation() {
-            Location location = null;
-            var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
-            _geoLocationCTS = new CancellationTokenSource();
-            location = await Geolocation.GetLocationAsync(request, _geoLocationCTS.Token);
-
-            return location;
-        }
-
         private void HandleGeolocationException(Exception exception) {
+            _mainContentLoadController.HideAll();
             Debug.WriteLine(exception.Message);
-            ErrorMessage.IsVisible = true;
             switch (exception) {
                 case FeatureNotSupportedException fnsEx:
-                    ErrorMessage.Text = "Геолокация не поддерживается данным устройством";
+                    _errorMessageController.SetMessage("Геолокация не поддерживается данным устройством");
                     break;
                 case FeatureNotEnabledException fneEx:
-                    ErrorMessage.Text = "Геолокация выключена";
-                    break ;
+                    _errorMessageController.SetMessage("Геолокация выключена");
+                    break;
                 case PermissionException pEx:
-                    ErrorMessage.Text = "Разрешите приложение использовать геолокацию";
+                    _errorMessageController.SetMessage("Необходимо предоставить доступ к геолокации");
                     break;
                 default:
-                    ErrorMessage.Text = "Неудалось получить местоположение. Попробкйте позже";
+                    _errorMessageController.SetMessage("Неудалось получить местоположение. Попробкйте позже.");
                     break;
             }
         }
 
         protected override void OnDisappearing() {
-            if (_geoLocationCTS != null && !_geoLocationCTS.IsCancellationRequested)
-                _geoLocationCTS.Cancel();
+            _geolocator.CancelGeolocationRequest();
             base.OnDisappearing();
         }
     }

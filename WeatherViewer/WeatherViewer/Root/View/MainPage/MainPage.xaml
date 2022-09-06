@@ -23,7 +23,9 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <StackLayout BackgroundColor="#011018">
-        <Label x:Name="ErrorMessage" IsVisible="false"/>
+        <StackLayout x:Name="ErrorContainer" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" IsVisible="false">
+            <Label x:Name="ErrorLable" FontSize="24" HorizontalTextAlignment="Center"/>
+        </StackLayout>
         <ActivityIndicator x:Name="ContentLoadIndicator"/>
         <ScrollView x:Name="MainContent">
             <StackLayout>

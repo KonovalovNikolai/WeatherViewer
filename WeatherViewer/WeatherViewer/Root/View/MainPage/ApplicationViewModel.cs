@@ -55,10 +55,6 @@ namespace WeatherViewer {
             if (_isBuisy) return;
             _isBuisy = true;
 
-            var placemarks = await Geocoding.GetPlacemarksAsync(latitude, latitude);
-            var placemark = placemarks?.FirstOrDefault();
-            Location = placemark?.Locality ?? "";
-
             CurrentForecast = await OpenMeteoAPI.GetCurrentWeatherAsync(latitude, longitude);
             WeekForecast = await OpenMeteoAPI.GetWeekForecastAsync(latitude, longitude);
             DateForecast = await OpenMeteoAPI.GetDateWeatherAsync(latitude, longitude, DateTime.Now);
