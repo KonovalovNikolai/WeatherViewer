@@ -9,7 +9,7 @@ namespace OpenMeteoApi {
     public partial class OpenMeteoAPI {
         private const string BASE_URL = "https://api.open-meteo.com/v1/forecast?latitude={0}&longitude={1}";
 
-        public static async Task<WeekForecast> GetWeekForecastAsync(float latitude, float longitude) {
+        public static async Task<WeekForecast> GetWeekForecastAsync(double latitude, double longitude) {
             const string ARGS = "&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=auto";
 
             string url = GetURL(latitude, longitude, ARGS);
@@ -24,7 +24,7 @@ namespace OpenMeteoApi {
             return null;
         }
 
-        public static async Task<DateForecast> GetDateWeatherAsync(float latitude, float longitude, DateTime date) {
+        public static async Task<DateForecast> GetDateWeatherAsync(double latitude, double longitude, DateTime date) {
             const string ARGS =
                 "&hourly=temperature_2m,relativehumidity_2m,weathercode" +
                 "&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max,winddirection_10m_dominant&timezone=auto" +
@@ -44,7 +44,7 @@ namespace OpenMeteoApi {
             return null;
         }
 
-        public static async Task<CurrentForecast> GetCurrentWeatherAsync(float latitude, float longitude) {
+        public static async Task<CurrentForecast> GetCurrentWeatherAsync(double latitude, double longitude) {
             const string ARGS = "&current_weather=true&timezone=auto";
 
             string url = GetURL(latitude, longitude, ARGS);
@@ -60,7 +60,7 @@ namespace OpenMeteoApi {
             return null;
         }
 
-        private static string GetURL(float latitude, float longitude, string url_args) {
+        private static string GetURL(double latitude, double longitude, string url_args) {
             var url = string.Format(BASE_URL, 
                 latitude.ToString(CultureInfo.InvariantCulture), 
                 longitude.ToString(CultureInfo.InvariantCulture));

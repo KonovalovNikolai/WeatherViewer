@@ -1,21 +1,33 @@
 ﻿using OpenMeteoApi;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Text;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace WeatherViewer {
     public class ApplicationViewModel : INotifyPropertyChanged {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public CancellationTokenSource APICTS { get; private set; }
+
+        private string _location;
+        public string Location {
+            get => _location;
+            set {
+                _location = value;
+                OnPropertyChanged(nameof(Location));
+            }
+        }
 
         private CurrentForecast _currentForecast;
         public CurrentForecast CurrentForecast {
             get => _currentForecast;
             set {
                 _currentForecast = value;
-                OnPropertyChanged("CurrentForecast");
+                OnPropertyChanged(nameof(CurrentForecast));
             }
         }
 
@@ -24,7 +36,7 @@ namespace WeatherViewer {
             get => _weekForecast;
             set {
                 _weekForecast = value;
-                OnPropertyChanged("WeekForecast");
+                OnPropertyChanged(nameof(WeekForecast));
             }
         }
 
@@ -33,19 +45,23 @@ namespace WeatherViewer {
             get => _dateForecast;
             set {
                 _dateForecast = value;
-                OnPropertyChanged("DateForecast");
+                OnPropertyChanged(nameof(DateForecast));
             }
         }
 
         private bool _isBuisy;
 
-        public async Task GetForecast(float lat, float lon) {
+        public async Task GetForecast(double latitude, double longitude) {
             if (_isBuisy) return;
             _isBuisy = true;
 
-            CurrentForecast = await OpenMeteoAPI.GetCurrentWeatherAsync(lat, lon);
-            WeekForecast = await OpenMeteoAPI.GetWeekForecastAsync(lat, lon);
-            DateForecast = await OpenMeteoAPI.GetDateWeatherAsync(lat, lon, DateTime.Now);
+            var placemarks = await Geocoding.GetPlacemarksAsync(latitude, latitude);
+            var placemark = placemarks?.FirstOrDefault();
+            Location = placemark?.Locality ?? "";
+
+            CurrentForecast = await OpenMeteoAPI.GetCurrentWeatherAsync(latitude, longitude);
+            WeekForecast = await OpenMeteoAPI.GetWeekForecastAsync(latitude, longitude);
+            DateForecast = await OpenMeteoAPI.GetDateWeatherAsync(latitude, longitude, DateTime.Now);
             
             _isBuisy = false;
         }
