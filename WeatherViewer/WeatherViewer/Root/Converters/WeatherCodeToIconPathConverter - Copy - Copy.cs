@@ -20,7 +20,7 @@ namespace WeatherViewer.Converters {
         private string SelectIconName(WeatherCodes weatherCode) {
             switch (weatherCode) {
                 case WeatherCodes.ClearSky:
-                    return "Sunny";
+                    return "Clear";
                 case WeatherCodes.MainlyClear:
                     return "MainlyClear";
                 case WeatherCodes.PartlyCloudy:
@@ -32,6 +32,7 @@ namespace WeatherViewer.Converters {
                 case WeatherCodes.RimFog:
                     return "RimeFog";
                 case WeatherCodes.LightDrizzle:
+                    return "LightDrizzle";
                 case WeatherCodes.ModerateDrizzle:
                 case WeatherCodes.DenseDrizzle:
                     return "Drizzle";

@@ -13,13 +13,16 @@
             <local:DateTimeToWeekDayConverter x:Key="WeekDayConverter"/>
             <local:DateTimeToHourConverter x:Key="HourConverter"/>
 
+            <Color x:Key="Grey">#989898</Color>
+
             <Style Class="Grey" TargetType="Label">
-                <Setter Property="TextColor" Value="#989898"/>
+                <Setter Property="TextColor" Value="{StaticResource Grey}"/>
             </Style>
 
             <Style Class="Light" TargetType="Label">
                 <Setter Property="FontFamily" Value="#Nunito-Light"/>
             </Style>
+            
         </ResourceDictionary>
     </ContentPage.Resources>
     <StackLayout BackgroundColor="#011018">
@@ -40,7 +43,7 @@
 
                 <!--Отображение списка прогноза погоды на неделю-->
                 <ListView
-                    HeightRequest="320"
+                    HeightRequest="270"
                     SeparatorColor="#13FFFFFF"
                     ItemsSource="{Binding Path=WeekForecast.WeekDaysForecast}" 
                     Margin="10, 0, 10, 0"
@@ -52,22 +55,17 @@
                             <ViewCell>
                                 <ViewCell.View>
                                     <FlexLayout Direction="Row" JustifyContent="Center" AlignItems="Center">
-                                        <FlexLayout.Resources>
-                                            <ResourceDictionary>
-                                                <Style TargetType="Label">
-                                                    <Setter Property="FontSize" Value="16"/>
-                                                    <Setter Property="FontFamily" Value="Nunito-Light"/>
-                                                </Style>
-                                            </ResourceDictionary>
-                                        </FlexLayout.Resources>
-                                        <Label Text="{Binding DateTime, Converter={StaticResource WeekDayConverter}}" FlexLayout.Grow="1"/>
+                                        <Label Text="{Binding DateTime, Converter={StaticResource WeekDayConverter}}" FontSize="16" StyleClass="Light" FlexLayout.Grow="1"/>
                                         <Image Source="{Binding Weather, Converter={StaticResource IconConverter}}" HeightRequest="32" WidthRequest="32"/>
-                                        <FlexLayout FlexLayout.Grow="1" Direction="Row" AlignItems="Center" JustifyContent="End">
-                                            <Label Text="{Binding MaxTemperature}"/>
-                                            <Label Text="/" StyleClass="Grey"/>
-                                            <Label Text="{Binding MinTemperature}" StyleClass="Grey"/>
-                                            <Label Text="°С"/>
-                                        </FlexLayout>
+                                        <Label FontSize="16" StyleClass="Light" FlexLayout.Grow="1" HorizontalTextAlignment="End">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding MaxTemperature}"/>
+                                                    <Span Text="{Binding MinTemperature, StringFormat='/{0}'}" TextColor="{StaticResource Grey}"/>
+                                                    <Span Text="°С"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
                                     </FlexLayout>
                                 </ViewCell.View>
                             </ViewCell>
@@ -80,18 +78,17 @@
                 <StackLayout x:Name="DateForecast" Orientation="Vertical" Margin="10, 0">
                     <!--Отображение даты и температур-->
                     <FlexLayout Direction="Row">
-                        <FlexLayout.Resources>
-                            <ResourceDictionary>
-                                <Style TargetType="Label">
-                                    <Setter Property="FontSize" Value="24"/>
-                                </Style>
-                            </ResourceDictionary>
-                        </FlexLayout.Resources>
                         <Label Text="{Binding Path=DateForecast.Time, Converter={StaticResource WeekDayConverter}}" StyleClass="Light"/>
-                        <Label Text="{Binding Path=DateForecast.MaxTemperature}" FlexLayout.Grow="1" HorizontalTextAlignment="End"/>
-                        <Label Text="/" StyleClass="Grey"/>
-                        <Label Text="{Binding Path=DateForecast.MinTemperature}" StyleClass="Grey"/>
-                        <Label Text="°С"/>
+
+                        <Label FontSize="24" StyleClass="Light" FlexLayout.Grow="1" HorizontalTextAlignment="End">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding Path=DateForecast.MaxTemperature}"/>
+                                    <Span Text="{Binding Path=DateForecast.MinTemperature, StringFormat='/{0}'}" TextColor="{StaticResource Grey}"/>
+                                    <Span Text="°С"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
                     </FlexLayout>
 
                     <!--Почасовой прогноза погоды-->

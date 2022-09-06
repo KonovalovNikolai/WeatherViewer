@@ -83,7 +83,9 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\LightDrizzle.png" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WeatherViewer\WeatherViewer.csproj">
       <Project>{64A3AA66-F083-4D3E-AD76-3B02A3ED584C}</Project>
@@ -139,7 +141,7 @@
     <AndroidResource Include="Resources\drawable\Snow.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Sunny.png" />
+    <AndroidResource Include="Resources\drawable\Clear.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\Temperature.png" />
