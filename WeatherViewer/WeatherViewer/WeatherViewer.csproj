@@ -12,13 +12,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Fonts\Nunito-Light.ttf" />
-    <None Remove="Fonts\Nunito-Regular.ttf" />
+    <None Remove="Root\Resources\Fonts\Nunito-Light.ttf" />
+    <None Remove="Root\Resources\Fonts\Nunito-Regular.ttf" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Fonts\Nunito-Light.ttf" />
-    <EmbeddedResource Include="Fonts\Nunito-Regular.ttf" />
+    <EmbeddedResource Include="Root\Resources\Fonts\Nunito-Light.ttf" />
+    <EmbeddedResource Include="Root\Resources\Fonts\Nunito-Regular.ttf" />
   </ItemGroup>
 
   <ItemGroup>
