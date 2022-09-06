@@ -26,6 +26,9 @@ namespace WeatherViewer {
             _mainContentLoadController = new ContentLoadController(ContentLoadIndicator, MainContent);
             _dateForecastLoadController = new ContentLoadController(DateForecastLoadIndicator, DateForecast);
 
+            _mainContentLoadController.HideAll();
+            _dateForecastLoadController.HideAll();
+
             _errorMessageController = new ErrorMessageController(
                 (val) => ErrorContainer.IsVisible = val,
                 (mes) => ErrorLable.Text = mes
@@ -59,8 +62,11 @@ namespace WeatherViewer {
                 return;
             }
 
-            await _viewModel.GetForecast(latitude, longitude);
+            _viewModel.SetLocation(latitude, longitude);
+            await _viewModel.GetForecast();
+            await _viewModel.GetDateForecast(DateTime.Now);
             _mainContentLoadController.ShowElement();
+            _dateForecastLoadController.ShowElement();
         }
 
         private void HandleException(Exception exception) {

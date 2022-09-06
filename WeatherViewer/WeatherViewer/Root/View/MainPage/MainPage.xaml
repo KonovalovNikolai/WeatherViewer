@@ -75,11 +75,10 @@
 
                 <!--Отображение прогноза погоды на выбранный день-->
                 <ActivityIndicator x:Name="DateForecastLoadIndicator"/>
-                <StackLayout x:Name="DateForecast" Orientation="Vertical" Margin="10, 0">
+                <StackLayout x:Name="DateForecast" Orientation="Vertical" Margin="10, 10">
                     <!--Отображение даты и температур-->
                     <FlexLayout Direction="Row">
-                        <Label Text="{Binding Path=DateForecast.Time, Converter={StaticResource WeekDayConverter}}" StyleClass="Light"/>
-
+                        <Label Text="{Binding Path=DateForecast.Time, Converter={StaticResource WeekDayConverter}}" FontSize="24" StyleClass="Light"/>
                         <Label FontSize="24" StyleClass="Light" FlexLayout.Grow="1" HorizontalTextAlignment="End">
                             <Label.FormattedText>
                                 <FormattedString>

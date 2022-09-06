@@ -44,15 +44,6 @@ namespace WeatherViewer {
             }
         }
 
-        private WeekDayForecast _selectedDay;
-        public WeekDayForecast SelectedDay {
-            get => _selectedDay;
-            set { 
-                _selectedDay = value;
-                OnPropertyChanged(nameof(SelectedDay));
-            }
-        }
-
         private DateForecast _dateForecast;
         public DateForecast DateForecast {
             get => _dateForecast;
@@ -64,17 +55,17 @@ namespace WeatherViewer {
 
         private bool _isBuisy;
 
-        public async Task GetForecast(double latitude, double longitude) {
+        public void SetLocation(double latitude, double longitude) {
+            _latitude = latitude;
+            _longitude = longitude;
+        }
+
+        public async Task GetForecast() {
             if (_isBuisy) return;
             _isBuisy = true;
 
-            _latitude = latitude;
-            _longitude = longitude;
-
-            CurrentForecast = await OpenMeteoAPI.GetCurrentWeatherAsync(latitude, longitude);
-            WeekForecast = await OpenMeteoAPI.GetWeekForecastAsync(latitude, longitude);
-            _selectedDay = WeekForecast.WeekDaysForecast[0];
-            DateForecast = await OpenMeteoAPI.GetDateWeatherAsync(latitude, longitude, DateTime.Now);
+            CurrentForecast = await OpenMeteoAPI.GetCurrentWeatherAsync(_latitude, _longitude);
+            WeekForecast = await OpenMeteoAPI.GetWeekForecastAsync(_latitude, _longitude);
             
             _isBuisy = false;
         }
