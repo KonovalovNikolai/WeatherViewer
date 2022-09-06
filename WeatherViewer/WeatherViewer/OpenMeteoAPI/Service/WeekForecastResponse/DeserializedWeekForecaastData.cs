@@ -21,7 +21,7 @@ namespace OpenMeteoApi.Service
         public WeekForecast Convert()
         {
             var daysArray = new WeekDayForecast[TimeArray.Count];
-            for (int i = 0; i < daysArray.Length; i++)
+            for (int i = 0; i < daysArray.Length - 1; i++)
             {
                 daysArray[i] = new WeekDayForecast(
                     (WeatherCodes)WeatherCodeArray[i],
