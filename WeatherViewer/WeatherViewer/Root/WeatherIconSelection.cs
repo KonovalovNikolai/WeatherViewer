@@ -1,23 +1,52 @@
 ﻿using OpenMeteoApi;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Text;
-using Xamarin.Forms;
 
-namespace WeatherViewer.Converters {
-    public class WeatherCodeToIconPathConverter : IValueConverter {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            const string ICON_FORMAT = ".png";
-            string iconName = SelectIconName((WeatherCodes)value);
-            return $"{iconName}{ICON_FORMAT}";
+namespace WeatherViewer {
+    public static class WeatherIconSelection {
+        public static string SelectIcon(WeatherCodes weatherCodes) {
+            string iconName = SelectDayIcon(weatherCodes);
+
+            return $"{iconName}.png";
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
-            throw new NotImplementedException();
+        public static string SelectIcon(WeatherCodes weatherCodes, DateTime time) {
+            const int NIGHTSTARTHOUR = 22;
+            const int NIGHTENDHOUR = 5;
+
+            string iconName;
+            if (time.Hour >= NIGHTSTARTHOUR || time.Hour <= NIGHTENDHOUR) {
+                iconName = SelectNightIcon(weatherCodes);
+            }
+            else {
+                iconName = SelectDayIcon(weatherCodes);
+            }
+
+            return $"{iconName}.png";
         }
 
-        private string SelectIconName(WeatherCodes weatherCode) {
+        public static string SelectNightIcon(WeatherCodes weatherCode) {
+            switch (weatherCode) {
+                case WeatherCodes.ClearSky:
+                    return "ClearN";
+                case WeatherCodes.MainlyClear:
+                    return "MainlyClearN";
+                case WeatherCodes.PartlyCloudy:
+                    return "PartlyCloudyN";
+                case WeatherCodes.LightDrizzle:
+                    return "LightDrizzleN";
+                case WeatherCodes.SlightRain:
+                    return "SlightRainN";
+                case WeatherCodes.SlightRainShower:
+                case WeatherCodes.ModerateRainShower:
+                    return "ShowerN";
+                default:
+                    return SelectDayIcon(weatherCode);
+            }
+        }
+
+        public static string SelectDayIcon(WeatherCodes weatherCode) {
             switch (weatherCode) {
                 case WeatherCodes.ClearSky:
                     return "Clear";

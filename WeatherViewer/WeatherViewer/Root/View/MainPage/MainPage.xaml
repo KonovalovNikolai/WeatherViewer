@@ -110,8 +110,8 @@
                                         </ResourceDictionary>
                                     </FlexLayout.Resources>
                                     <Label Text="{Binding Time, Converter={StaticResource HourConverter}}"/>
-                                    <!--<controls:HourForecastIcon WeatherCode="{Binding WeatherCode}" Time="{Binding Time}"/>-->
-                                    <Image Source="{Binding WeatherCode, Converter={StaticResource IconConverter}}" HeightRequest="32" WidthRequest="32"/>
+                                    <controls:HourForecastIcon IconInfo="{Binding ForecastIcon}"/>
+                                    <!--<Image Source="{Binding WeatherCode, Converter={StaticResource IconConverter}}" HeightRequest="32" WidthRequest="32"/>-->
                                     <Label Text="{Binding Temperature, StringFormat='{0}°С'}"/>
                                     <StackLayout Orientation="Horizontal" HorizontalOptions="End" Spacing="0">
                                         <Image Source="Humidity.png" HeightRequest="16" WidthRequest="16"/>

@@ -9,6 +9,8 @@ namespace OpenMeteoApi {
             WeatherCode = weatherCode;
         }
 
+        public ForecastIconInfo ForecastIcon => new ForecastIconInfo(WeatherCode, Time);
+
         public DateTime Time { get; private set; }
         public float Temperature { get; private set; }
         public float RelativeHumidity { get; private set; }

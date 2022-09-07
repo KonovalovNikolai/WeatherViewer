@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using WeatherViewer.Root;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace WeatherViewer {
+    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPage : ContentPage {
         private ApplicationViewModel _viewModel;
 
