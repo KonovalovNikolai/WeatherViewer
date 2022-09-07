@@ -6,10 +6,10 @@ using System.Text;
 using Xamarin.Forms;
 
 namespace WeatherViewer.Converters {
-    public class DateTimeToWeekDayConverter : IValueConverter {
+    public class DateTimeToHourConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             var dateTime = (DateTime)value;
-            return dateTime.ToString("ddd, dd MMM");
+            return dateTime.ToString("HH:mm");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {

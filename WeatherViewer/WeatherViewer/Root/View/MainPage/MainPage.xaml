@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:WeatherViewer.Converters" 
              xmlns:weatherviewer="clr-namespace:WeatherViewer" 
              xmlns:OpenMeteo="clr-namespace:OpenMeteoApi" 
+             xmlns:controls="clr-namespace:WeatherViewer.ContentViews.ForecastIcon"
              x:DataType="weatherviewer:ApplicationViewModel"
              x:Class="WeatherViewer.MainPage">
     <ContentPage.Resources>
@@ -52,11 +53,12 @@
                     
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="OpenMeteo:WeekDayForecast">
-                            <ViewCell>
+                            <ViewCell BindingContext="WeekDayForecast">
                                 <ViewCell.View>
                                     <FlexLayout Direction="Row" JustifyContent="Center" AlignItems="Center">
                                         <Label Text="{Binding DateTime, Converter={StaticResource WeekDayConverter}}" FontSize="16" StyleClass="Light" FlexLayout.Grow="1"/>
                                         <Image Source="{Binding Weather, Converter={StaticResource IconConverter}}" HeightRequest="32" WidthRequest="32"/>
+                                        <!--<controls:WeatherIcon WeatherCode="{Binding Weather}" Time="{Binding DateTime}"/>-->
                                         <Label FontSize="16" StyleClass="Light" FlexLayout.Grow="1" HorizontalTextAlignment="End">
                                             <Label.FormattedText>
                                                 <FormattedString>
@@ -107,6 +109,7 @@
                                         </ResourceDictionary>
                                     </FlexLayout.Resources>
                                     <Label Text="{Binding Time, Converter={StaticResource HourConverter}}"/>
+                                    <!--<controls:HourForecastIcon WeatherCode="{Binding WeatherCode}" Time="{Binding Time}"/>-->
                                     <Image Source="{Binding WeatherCode, Converter={StaticResource IconConverter}}" HeightRequest="32" WidthRequest="32"/>
                                     <Label Text="{Binding Temperature, StringFormat='{0}°С'}"/>
                                     <StackLayout Orientation="Horizontal" HorizontalOptions="End" Spacing="0">
