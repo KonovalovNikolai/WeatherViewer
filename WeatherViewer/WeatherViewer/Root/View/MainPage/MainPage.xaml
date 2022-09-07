@@ -28,7 +28,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <RefreshView RefreshColor="White" BackgroundColor="Black" x:Name="RefreshContainer">
-        <ScrollView x:Name="MainContent">
+        <ScrollView x:Name="MainContent" BackgroundColor="#011018">
             <FlexLayout Direction="Column">
                 <StackLayout x:Name="ErrorContainer" HorizontalOptions="Center" IsVisible="false">
                     <Label x:Name="ErrorLable" FontSize="24" HorizontalTextAlignment="Center"/>
