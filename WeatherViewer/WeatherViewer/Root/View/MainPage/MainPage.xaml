@@ -6,7 +6,8 @@
              xmlns:OpenMeteo="clr-namespace:OpenMeteoApi" 
              xmlns:controls="clr-namespace:WeatherViewer.ContentViews.ForecastIcon"
              x:DataType="weatherviewer:ApplicationViewModel"
-             x:Class="WeatherViewer.MainPage">
+             x:Class="WeatherViewer.MainPage"
+             BackgroundColor="#011018">
     <ContentPage.Resources>
         <ResourceDictionary>
             <local:WindDirectionToCompassConverter x:Key="DirectionConverter"/>
@@ -23,16 +24,16 @@
             <Style Class="Light" TargetType="Label">
                 <Setter Property="FontFamily" Value="#Nunito-Light"/>
             </Style>
-            
+
         </ResourceDictionary>
     </ContentPage.Resources>
-    <StackLayout BackgroundColor="#011018">
-        <StackLayout x:Name="ErrorContainer" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" IsVisible="false">
-            <Label x:Name="ErrorLable" FontSize="24" HorizontalTextAlignment="Center"/>
-        </StackLayout>
-        <ActivityIndicator x:Name="ContentLoadIndicator"/>
+    <RefreshView RefreshColor="White" BackgroundColor="Black" x:Name="RefreshContainer">
         <ScrollView x:Name="MainContent">
-            <StackLayout>
+            <FlexLayout Direction="Column">
+                <StackLayout x:Name="ErrorContainer" HorizontalOptions="Center" IsVisible="false">
+                    <Label x:Name="ErrorLable" FontSize="24" HorizontalTextAlignment="Center"/>
+                </StackLayout>
+
                 <!--Отображение текущей температуры и названия города-->
                 <StackLayout Padding="0, 10, 0, 20">
                     <Label Text="{Binding Location}" HorizontalOptions="Center" FontSize="16" StyleClass="Light"/>
@@ -45,12 +46,12 @@
                 <!--Отображение списка прогноза погоды на неделю-->
                 <ListView
                     HeightRequest="270"
-                    SeparatorColor="#13FFFFFF"
+                    SeparatorColor="#25FFFFFF"
                     ItemsSource="{Binding Path=WeekForecast.WeekDaysForecast}" 
                     Margin="10, 0, 10, 0"
                     SelectionMode="None"
                     ItemTapped="OnItemTapped">
-                    
+
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="OpenMeteo:WeekDayForecast">
                             <ViewCell BindingContext="WeekDayForecast">
@@ -77,7 +78,7 @@
 
                 <!--Отображение прогноза погоды на выбранный день-->
                 <ActivityIndicator x:Name="DateForecastLoadIndicator"/>
-                <StackLayout x:Name="DateForecast" Orientation="Vertical" Margin="10, 10">
+                <StackLayout x:Name="DateForecast" Orientation="Vertical" VerticalOptions="Start" Margin="10, 0">
                     <!--Отображение даты и температур-->
                     <FlexLayout Direction="Row">
                         <Label Text="{Binding Path=DateForecast.Time, Converter={StaticResource WeekDayConverter}}" FontSize="24" StyleClass="Light"/>
@@ -133,7 +134,7 @@
                         <Label Text="{Binding Path=DateForecast.PrecipitationSum, StringFormat='{0} mm'}" HorizontalTextAlignment="End" FlexLayout.Grow="1"/>
                     </FlexLayout>
                 </StackLayout>
-            </StackLayout>
+            </FlexLayout>
         </ScrollView>
-    </StackLayout>
+    </RefreshView>
 </ContentPage>

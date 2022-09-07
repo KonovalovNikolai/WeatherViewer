@@ -12,7 +12,6 @@ namespace WeatherViewer {
         private ApplicationViewModel _viewModel;
 
         private Geolocator _geolocator;
-        private ContentLoadController _mainContentLoadController;
         private ContentLoadController _dateForecastLoadController;
         private ErrorMessageController _errorMessageController;
 
@@ -22,23 +21,26 @@ namespace WeatherViewer {
             _viewModel = new ApplicationViewModel();
 
             _geolocator = new Geolocator();
-
-            _mainContentLoadController = new ContentLoadController(ContentLoadIndicator, MainContent);
             _dateForecastLoadController = new ContentLoadController(DateForecastLoadIndicator, DateForecast);
-
-            _mainContentLoadController.HideAll();
-            _dateForecastLoadController.HideAll();
 
             _errorMessageController = new ErrorMessageController(
                 (val) => ErrorContainer.IsVisible = val,
                 (mes) => ErrorLable.Text = mes
             );
 
+            MainContent.IsVisible = false;
+            _dateForecastLoadController.HideAll();
+
+            RefreshContainer.Command = new Command(async () => {
+                await LoadForecast();
+                RefreshContainer.IsRefreshing = false;
+            });
+
             BindingContext = _viewModel;
         }
 
         protected override void OnAppearing() {
-            _ = LoadForecast();
+            RefreshContainer.IsRefreshing = true;
         }
 
         private async void OnItemTapped(object sender, ItemTappedEventArgs e) {
@@ -51,8 +53,6 @@ namespace WeatherViewer {
         }
 
         private async Task LoadForecast() {
-            _mainContentLoadController.ShowLoadIndicator();
-
             (double latitude, double longitude) = (0, 0);
             try {
                 (latitude, longitude) = await _geolocator.TryGetLocation();
@@ -65,25 +65,25 @@ namespace WeatherViewer {
             _viewModel.SetLocation(latitude, longitude);
             await _viewModel.GetForecast();
             await _viewModel.GetDateForecast(DateTime.Now);
-            _mainContentLoadController.ShowElement();
+
+            _errorMessageController.Hide();
+            MainContent.IsVisible = true;
             _dateForecastLoadController.ShowElement();
         }
 
         private void HandleException(Exception exception) {
-            _mainContentLoadController.HideAll();
-            Debug.WriteLine(exception.Message);
             switch (exception) {
                 case FeatureNotSupportedException fnsEx:
-                    _errorMessageController.SetMessage("Геолокация не поддерживается данным устройством");
+                    _errorMessageController.SetMessage("Неудалось получить местоположение.\nГеолокация не поддерживается данным устройством");
                     break;
                 case FeatureNotEnabledException fneEx:
-                    _errorMessageController.SetMessage("Геолокация выключена");
+                    _errorMessageController.SetMessage("Неудалось получить местоположение.\nГеолокация выключена.");
                     break;
                 case PermissionException pEx:
-                    _errorMessageController.SetMessage("Необходимо предоставить доступ к геолокации");
+                    _errorMessageController.SetMessage("Неудалось получить местоположение.\nНеобходимо предоставить доступ к геолокации.");
                     break;
                 default:
-                    _errorMessageController.SetMessage("Неудалось получить местоположение. Попробкйте позже.");
+                    _errorMessageController.SetMessage("Неудалось получить местоположение.\nПопробкйте позже.");
                     break;
             }
         }
