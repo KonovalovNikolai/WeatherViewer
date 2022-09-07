@@ -35,7 +35,7 @@
                 </StackLayout>
 
                 <!--Отображение текущей температуры и названия города-->
-                <StackLayout Padding="0, 10, 0, 20">
+                <StackLayout Padding="0, 20, 0, 20" Spacing="0">
                     <Label Text="{Binding Location}" HorizontalOptions="Center" FontSize="16" StyleClass="Light"/>
                     <FlexLayout Direction="Row" JustifyContent="Center">
                         <Label Text="{Binding Path=CurrentForecast.Temperature}" FontSize="60"/>
@@ -77,8 +77,8 @@
                 </ListView>
 
                 <!--Отображение прогноза погоды на выбранный день-->
-                <ActivityIndicator x:Name="DateForecastLoadIndicator"/>
-                <StackLayout x:Name="DateForecast" Orientation="Vertical" VerticalOptions="Start" Margin="10, 0">
+                <ActivityIndicator x:Name="DateForecastLoadIndicator" Color="White" Margin="10, 10"/>
+                <StackLayout x:Name="DateForecast" Orientation="Vertical" VerticalOptions="Start" Margin="10, 10">
                     <!--Отображение даты и температур-->
                     <FlexLayout Direction="Row">
                         <Label Text="{Binding Path=DateForecast.Time, Converter={StaticResource WeekDayConverter}}" FontSize="24" StyleClass="Light"/>

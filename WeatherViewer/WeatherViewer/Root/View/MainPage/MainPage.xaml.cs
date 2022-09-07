@@ -64,6 +64,9 @@ namespace WeatherViewer {
                 return;
             }
 
+            var placemark = await _geolocator.GetPlacemark(latitude, longitude);
+
+            _viewModel.Location = placemark.Locality;
             _viewModel.SetLocation(latitude, longitude);
             await _viewModel.GetForecast();
             await _viewModel.GetDateForecast(DateTime.Now);

@@ -6,19 +6,15 @@ using System.Threading;
 using Xamarin.Essentials;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms;
+using System.Linq;
 
 namespace WeatherViewer.Root {
     public class Geolocator {
         private CancellationTokenSource _CTS;
 
-        public async Task<bool> IsGpsPermissionGranted() {
-            var status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-            return status == PermissionStatus.Granted;
-        }
-
-        public async Task<bool> RequestPermission() {
-            var status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-            return status == PermissionStatus.Granted;
+        public async Task<Placemark> GetPlacemark(double latitude, double longitude) {
+            var placemarks = await Geocoding.GetPlacemarksAsync(new Location(latitude, longitude));
+            return placemarks.FirstOrDefault();
         }
 
         public async Task<(double, double)> TryGetLocation() {
