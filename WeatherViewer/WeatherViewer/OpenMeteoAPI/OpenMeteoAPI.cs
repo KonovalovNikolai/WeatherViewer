@@ -27,7 +27,7 @@ namespace OpenMeteoApi {
         public static async Task<DateForecast> GetDateWeatherAsync(float latitude, float longitude, DateTime date) {
             const string ARGS =
                 "&hourly=temperature_2m,relativehumidity_2m,weathercode" +
-                "&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max,winddirection_10m_dominant&timezone=auto" +
+                "&daily=sunrise,sunset,weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max,winddirection_10m_dominant&timezone=auto" +
                 "&start_date={0}&end_date={0}";
 
             string dateArg = string.Format(ARGS, date.ToString("yyyy-MM-dd"));

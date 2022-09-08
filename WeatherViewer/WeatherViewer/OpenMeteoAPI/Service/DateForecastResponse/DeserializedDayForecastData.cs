@@ -7,6 +7,12 @@ namespace OpenMeteoApi.Service {
         [JsonPropertyName("time")]
         public List<string> Time { get; set; }
 
+        [JsonPropertyName("sunrise")]
+        public List<string> Sunrise { get; set; }
+
+        [JsonPropertyName("sunset")]
+        public List<string> Sunset { get; set; }
+
         [JsonPropertyName("weathercode")]
         public List<float> Weathercode { get; set; }
 
@@ -28,6 +34,8 @@ namespace OpenMeteoApi.Service {
         public DayForecast Convert() {
             return new DayForecast(
                     DateTime.Parse(Time[0]),
+                    DateTime.Parse(Sunrise[0]),
+                    DateTime.Parse(Sunset[0]),
                     (WeatherCodes)Weathercode[0],
                     MaxTemperature[0],
                     MinTemperature[0],

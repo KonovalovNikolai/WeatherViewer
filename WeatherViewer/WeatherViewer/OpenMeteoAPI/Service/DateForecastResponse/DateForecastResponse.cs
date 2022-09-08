@@ -14,6 +14,8 @@ namespace OpenMeteoApi.Service {
 
             return new DateForecast(
                 dayForecast.Time,
+                dayForecast.SunriseTime,
+                dayForecast.SunsetTime,
                 dayForecast.Weather,
                 dayForecast.MaxTemperature,
                 dayForecast.MinTemperature,
