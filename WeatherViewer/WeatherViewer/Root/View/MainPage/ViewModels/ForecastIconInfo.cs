@@ -1,8 +1,9 @@
-﻿using System;
+﻿using OpenMeteoApi;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OpenMeteoApi {
+namespace WeatherViewer {
     public readonly struct ForecastIconInfo {
         public ForecastIconInfo(WeatherCodes weatherCode, DateTime time) {
             WeatherCode = weatherCode;

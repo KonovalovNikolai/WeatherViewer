@@ -28,7 +28,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <RefreshView RefreshColor="White" BackgroundColor="Black" x:Name="RefreshContainer">
-        <ScrollView x:Name="MainContent" BackgroundColor="#011018">
+        <ScrollView x:Name="MainContent">
             <FlexLayout Direction="Column">
                 <StackLayout x:Name="ErrorContainer" HorizontalOptions="Center" IsVisible="false">
                     <Label x:Name="ErrorLable" FontSize="24" HorizontalTextAlignment="Center"/>
@@ -59,7 +59,6 @@
                                     <FlexLayout Direction="Row" JustifyContent="Center" AlignItems="Center">
                                         <Label Text="{Binding DateTime, Converter={StaticResource WeekDayConverter}}" FontSize="16" StyleClass="Light" FlexLayout.Grow="1"/>
                                         <Image Source="{Binding Weather, Converter={StaticResource IconConverter}}" HeightRequest="32" WidthRequest="32"/>
-                                        <!--<controls:WeatherIcon WeatherCode="{Binding Weather}" Time="{Binding DateTime}"/>-->
                                         <Label FontSize="16" StyleClass="Light" FlexLayout.Grow="1" HorizontalTextAlignment="End">
                                             <Label.FormattedText>
                                                 <FormattedString>
@@ -102,20 +101,12 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="OpenMeteo:HourForecast">
                                 <FlexLayout Direction="Column" AlignItems="Center" Margin="5, 0">
-                                    <FlexLayout.Resources>
-                                        <ResourceDictionary>
-                                            <Style TargetType="Label">
-                                                <Setter Property="FontSize" Value="14"/>
-                                            </Style>
-                                        </ResourceDictionary>
-                                    </FlexLayout.Resources>
-                                    <Label Text="{Binding Time, Converter={StaticResource HourConverter}}"/>
+                                    <Label Text="{Binding Time, Converter={StaticResource HourConverter}}" FontSize="14"/>
                                     <controls:HourForecastIcon IconInfo="{Binding ForecastIcon}"/>
-                                    <!--<Image Source="{Binding WeatherCode, Converter={StaticResource IconConverter}}" HeightRequest="32" WidthRequest="32"/>-->
-                                    <Label Text="{Binding Temperature, StringFormat='{0}°С'}"/>
+                                    <Label Text="{Binding Temperature, StringFormat='{0}°С'}" FontSize="14"/>
                                     <StackLayout Orientation="Horizontal" HorizontalOptions="End" Spacing="0">
                                         <Image Source="Humidity.png" HeightRequest="16" WidthRequest="16"/>
-                                        <Label Text="{Binding RelativeHumidity, StringFormat='{0}%'}"/>
+                                        <Label Text="{Binding RelativeHumidity, StringFormat='{0}%'}" FontSize="14"/>
                                     </StackLayout>
                                 </FlexLayout>
                             </DataTemplate>
