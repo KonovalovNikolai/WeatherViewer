@@ -13,6 +13,7 @@
             <converters:WeatherCodeToIconPathConverter x:Key="IconConverter"/>
             <converters:DateTimeToWeekDayConverter x:Key="WeekDayConverter"/>
             <converters:DateTimeToHourConverter x:Key="HourConverter"/>
+            <converters:DateTimeToHourOnlyConverter x:Key="HourOnlyConverter"/>
 
             <Color x:Key="Grey">#989898</Color>
 
@@ -26,7 +27,7 @@
 
             <DataTemplate x:Key="HourForecastTemplate" x:DataType="weatherviewer:HourForecastViewModelBase">
                 <FlexLayout Direction="Column" AlignItems="Center" Margin="5, 0">
-                    <Label Text="{Binding Time, Converter={StaticResource HourConverter}}" FontSize="14"/>
+                    <Label Text="{Binding Time, Converter={StaticResource HourOnlyConverter}}" FontSize="14"/>
                     <Image Source="{Binding IconSource}" HeightRequest="32" WidthRequest="32"/>
                     <Label Text="{Binding Temperature, StringFormat='{0}°С'}" FontSize="14"/>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="End" Spacing="0">
