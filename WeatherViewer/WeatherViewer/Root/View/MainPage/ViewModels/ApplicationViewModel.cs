@@ -44,8 +44,8 @@ namespace WeatherViewer {
             }
         }
 
-        private DateForecast _dateForecast;
-        public DateForecast DateForecast {
+        private DateForecastViewModel _dateForecast;
+        public DateForecastViewModel DateForecast {
             get => _dateForecast;
             set {
                 _dateForecast = value;
@@ -75,7 +75,8 @@ namespace WeatherViewer {
                 return;
 
             _isBuisy = true;
-            DateForecast = await OpenMeteoAPI.GetDateWeatherAsync(_latitude, _longitude, date);
+            var dateForecast = await OpenMeteoAPI.GetDateWeatherAsync(_latitude, _longitude, date);
+            DateForecast = new DateForecastViewModel(dateForecast);
             _isBuisy = false;
         }
 

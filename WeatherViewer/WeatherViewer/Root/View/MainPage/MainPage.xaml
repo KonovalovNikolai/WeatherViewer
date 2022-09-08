@@ -1,19 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:local="clr-namespace:WeatherViewer.Converters" 
+             xmlns:converters="clr-namespace:WeatherViewer.Converters" 
              xmlns:weatherviewer="clr-namespace:WeatherViewer" 
              xmlns:OpenMeteo="clr-namespace:OpenMeteoApi" 
-             xmlns:controls="clr-namespace:WeatherViewer.ContentViews.ForecastIcon"
              x:DataType="weatherviewer:ApplicationViewModel"
              x:Class="WeatherViewer.MainPage"
              BackgroundColor="#011018">
     <ContentPage.Resources>
         <ResourceDictionary>
-            <local:WindDirectionToCompassConverter x:Key="DirectionConverter"/>
-            <local:WeatherCodeToIconPathConverter x:Key="IconConverter"/>
-            <local:DateTimeToWeekDayConverter x:Key="WeekDayConverter"/>
-            <local:DateTimeToHourConverter x:Key="HourConverter"/>
+            <converters:WindDirectionToCompassConverter x:Key="DirectionConverter"/>
+            <converters:WeatherCodeToIconPathConverter x:Key="IconConverter"/>
+            <converters:DateTimeToWeekDayConverter x:Key="WeekDayConverter"/>
+            <converters:DateTimeToHourConverter x:Key="HourConverter"/>
 
             <Color x:Key="Grey">#989898</Color>
 
@@ -24,6 +23,30 @@
             <Style Class="Light" TargetType="Label">
                 <Setter Property="FontFamily" Value="#Nunito-Light"/>
             </Style>
+
+            <DataTemplate x:Key="HourForecastTemplate" x:DataType="weatherviewer:HourForecastViewModelBase">
+                <FlexLayout Direction="Column" AlignItems="Center" Margin="5, 0">
+                    <Label Text="{Binding Time, Converter={StaticResource HourConverter}}" FontSize="14"/>
+                    <Image Source="{Binding IconSource}" HeightRequest="32" WidthRequest="32"/>
+                    <Label Text="{Binding Temperature, StringFormat='{0}°С'}" FontSize="14"/>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="End" Spacing="0">
+                        <Image Source="Humidity.png" HeightRequest="16" WidthRequest="16"/>
+                        <Label Text="{Binding RelativeHumidity, StringFormat='{0}%'}" FontSize="14"/>
+                    </StackLayout>
+                </FlexLayout>
+            </DataTemplate>
+
+            <DataTemplate x:Key="SunInfoTemplate" x:DataType="weatherviewer:SunViewModelBase">
+                <FlexLayout Direction="Column" AlignItems="Center" Margin="5, 0">
+                    <Label Text="{Binding Time, Converter={StaticResource HourConverter}}" FontSize="14"/>
+                    <Image Source="{Binding IconSource}" FlexLayout.AlignSelf="Center" HeightRequest="32" WidthRequest="32" Margin="0, 15"/>
+                </FlexLayout>
+            </DataTemplate>
+
+            <weatherviewer:HourTemplateSelector 
+                x:Key="HourTemplateSelector" 
+                HourForecastTemplate="{StaticResource HourForecastTemplate}"
+                SunInfoTemplate="{StaticResource SunInfoTemplate}"/>
 
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -94,24 +117,11 @@
 
                     <!--Почасовой прогноза погоды-->
                     <CollectionView
-                        ItemsSource="{Binding Path=DateForecast.HourlyForecasts}" 
+                        ItemsSource="{Binding Path=DateForecast.HourlyForecast}"
+                        ItemTemplate="{StaticResource HourTemplateSelector}"
                         ItemsLayout="HorizontalList" 
                         HeightRequest="90"
-                        Margin="-15, 10, -15, 10">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="OpenMeteo:HourForecast">
-                                <FlexLayout Direction="Column" AlignItems="Center" Margin="5, 0">
-                                    <Label Text="{Binding Time, Converter={StaticResource HourConverter}}" FontSize="14"/>
-                                    <controls:HourForecastIcon IconInfo="{Binding ForecastIcon}"/>
-                                    <Label Text="{Binding Temperature, StringFormat='{0}°С'}" FontSize="14"/>
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="End" Spacing="0">
-                                        <Image Source="Humidity.png" HeightRequest="16" WidthRequest="16"/>
-                                        <Label Text="{Binding RelativeHumidity, StringFormat='{0}%'}" FontSize="14"/>
-                                    </StackLayout>
-                                </FlexLayout>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                        Margin="-15, 10, -15, 10"/>
 
                     <!--Информация о ветре-->
                     <FlexLayout Direction="Row" AlignItems="Center">

@@ -12,7 +12,7 @@ namespace OpenMeteoApi {
             PrecipitationSum = precipitationSum;
             WindSpeed = windSpeed;
             WindDirection = windDirection;
-            HourlyForecasts = hourlyForecasts;
+            HourlyForecast = hourlyForecasts;
         }
 
         public DateTime Time { get; private set; }
@@ -25,6 +25,6 @@ namespace OpenMeteoApi {
         public float WindSpeed { get; private set; }
         public float WindDirection { get; private set; }
 
-        public HourForecast[] HourlyForecasts { get; private set; }
+        public HourForecast[] HourlyForecast { get; private set; }
     }
 }

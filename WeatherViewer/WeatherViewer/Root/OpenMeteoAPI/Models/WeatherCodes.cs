@@ -18,7 +18,7 @@
         DenseFreezingDrizzle = 57,
         // Rain
         SlightRain = 61, 
-        ModerateRain = 62, 
+        ModerateRain = 63, 
         HeavyRain = 65,
         // Freezing rain
         LightFreezingRain = 66, 
