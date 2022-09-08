@@ -51,23 +51,24 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <RefreshView RefreshColor="White" BackgroundColor="Black" x:Name="RefreshContainer">
-        <ScrollView x:Name="MainContent">
+        <ScrollView>
             <FlexLayout Direction="Column">
-                <StackLayout x:Name="ErrorContainer" HorizontalOptions="Center" IsVisible="false">
-                    <Label x:Name="ErrorLable" FontSize="24" HorizontalTextAlignment="Center"/>
-                </StackLayout>
+                <Frame BackgroundColor="#50aa0000" x:Name="ErrorContainer" CornerRadius="5">
+                    <Label x:Name="ErrorLable" FontSize="14" HorizontalTextAlignment="Center"/>
+                </Frame>
 
-                <!--Отображение текущей температуры и названия города-->
-                <StackLayout Padding="0, 20, 0, 20" Spacing="0">
-                    <Label Text="{Binding Location}" HorizontalOptions="Center" FontSize="16" StyleClass="Light"/>
-                    <FlexLayout Direction="Row" JustifyContent="Center">
-                        <Label Text="{Binding Path=CurrentForecast.Temperature}" FontSize="60"/>
-                        <Label Text="°С" FontSize="30"/>
-                    </FlexLayout>
-                </StackLayout>
+                <StackLayout x:Name="MainContent" Spacing="0">
+                    <!--Отображение текущей температуры и названия города-->
+                    <StackLayout Padding="0, 20, 0, 20" Spacing="0">
+                        <Label Text="{Binding Location}" HorizontalOptions="Center" FontSize="16" StyleClass="Light"/>
+                        <FlexLayout Direction="Row" JustifyContent="Center">
+                            <Label Text="{Binding Path=CurrentForecast.Temperature}" FontSize="60"/>
+                            <Label Text="°С" FontSize="30"/>
+                        </FlexLayout>
+                    </StackLayout>
 
-                <!--Отображение списка прогноза погоды на неделю-->
-                <ListView
+                    <!--Отображение списка прогноза погоды на неделю-->
+                    <ListView
                     HeightRequest="270"
                     SeparatorColor="#25FFFFFF"
                     ItemsSource="{Binding Path=WeekForecast.WeekDaysForecast}" 
@@ -75,65 +76,66 @@
                     SelectionMode="None"
                     ItemTapped="OnItemTapped">
 
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="OpenMeteo:WeekDayForecast">
-                            <ViewCell BindingContext="WeekDayForecast">
-                                <ViewCell.View>
-                                    <FlexLayout Direction="Row" JustifyContent="Center" AlignItems="Center">
-                                        <Label Text="{Binding DateTime, Converter={StaticResource WeekDayConverter}}" FontSize="16" StyleClass="Light" FlexLayout.Grow="1"/>
-                                        <Image Source="{Binding Weather, Converter={StaticResource IconConverter}}" HeightRequest="32" WidthRequest="32"/>
-                                        <Label FontSize="16" StyleClass="Light" FlexLayout.Grow="1" HorizontalTextAlignment="End">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="{Binding MaxTemperature}"/>
-                                                    <Span Text="{Binding MinTemperature, StringFormat='/{0}'}" TextColor="{StaticResource Grey}"/>
-                                                    <Span Text="°С"/>
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                    </FlexLayout>
-                                </ViewCell.View>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="OpenMeteo:WeekDayForecast">
+                                <ViewCell BindingContext="WeekDayForecast">
+                                    <ViewCell.View>
+                                        <FlexLayout Direction="Row" JustifyContent="Center" AlignItems="Center">
+                                            <Label Text="{Binding DateTime, Converter={StaticResource WeekDayConverter}}" FontSize="16" StyleClass="Light" FlexLayout.Grow="1"/>
+                                            <Image Source="{Binding Weather, Converter={StaticResource IconConverter}}" HeightRequest="32" WidthRequest="32"/>
+                                            <Label FontSize="16" StyleClass="Light" FlexLayout.Grow="1" HorizontalTextAlignment="End">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding MaxTemperature}"/>
+                                                        <Span Text="{Binding MinTemperature, StringFormat='/{0}'}" TextColor="{StaticResource Grey}"/>
+                                                        <Span Text="°С"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                        </FlexLayout>
+                                    </ViewCell.View>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
 
-                <!--Отображение прогноза погоды на выбранный день-->
-                <ActivityIndicator x:Name="DateForecastLoadIndicator" Color="White" Margin="10, 10"/>
-                <StackLayout x:Name="DateForecast" Orientation="Vertical" VerticalOptions="Start" Margin="10, 10">
-                    <!--Отображение даты и температур-->
-                    <FlexLayout Direction="Row">
-                        <Label Text="{Binding Path=DateForecast.Time, Converter={StaticResource WeekDayConverter}}" FontSize="24" StyleClass="Light"/>
-                        <Label FontSize="24" StyleClass="Light" FlexLayout.Grow="1" HorizontalTextAlignment="End">
-                            <Label.FormattedText>
-                                <FormattedString>
-                                    <Span Text="{Binding Path=DateForecast.MaxTemperature}"/>
-                                    <Span Text="{Binding Path=DateForecast.MinTemperature, StringFormat='/{0}'}" TextColor="{StaticResource Grey}"/>
-                                    <Span Text="°С"/>
-                                </FormattedString>
-                            </Label.FormattedText>
-                        </Label>
-                    </FlexLayout>
+                    <!--Отображение прогноза погоды на выбранный день-->
+                    <ActivityIndicator x:Name="DateForecastLoadIndicator" Color="White" Margin="10, 10"/>
+                    <StackLayout x:Name="DateForecast" Orientation="Vertical" VerticalOptions="Start" Margin="10, 10">
+                        <!--Отображение даты и температур-->
+                        <FlexLayout Direction="Row">
+                            <Label Text="{Binding Path=DateForecast.Time, Converter={StaticResource WeekDayConverter}}" FontSize="24" StyleClass="Light"/>
+                            <Label FontSize="24" StyleClass="Light" FlexLayout.Grow="1" HorizontalTextAlignment="End">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding Path=DateForecast.MaxTemperature}"/>
+                                        <Span Text="{Binding Path=DateForecast.MinTemperature, StringFormat='/{0}'}" TextColor="{StaticResource Grey}"/>
+                                        <Span Text="°С"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </FlexLayout>
 
-                    <!--Почасовой прогноза погоды-->
-                    <CollectionView
+                        <!--Почасовой прогноза погоды-->
+                        <CollectionView
                         ItemsSource="{Binding Path=DateForecast.HourlyForecast}"
                         ItemTemplate="{StaticResource HourTemplateSelector}"
                         ItemsLayout="HorizontalList" 
                         HeightRequest="90"
                         Margin="-15, 10, -15, 10"/>
 
-                    <!--Информация о ветре-->
-                    <FlexLayout Direction="Row" AlignItems="Center">
-                        <Label Text="Ветер:" FontSize="24"/>
-                        <Label Text="{Binding Path=DateForecast.WindSpeed, StringFormat='{0} km\h'}" HorizontalTextAlignment="End" FlexLayout.Grow="1"/>
-                        <Label Text="{Binding Path=DateForecast.WindDirection, Converter={StaticResource DirectionConverter}}" Margin="5, 0, 0, 0"/>
-                    </FlexLayout>
-                    <!--Количество осадков-->
-                    <FlexLayout Direction="Row" AlignItems="Center" Margin="0, 10, 0, 10">
-                        <Label Text="Осадки:" FontSize="24"/>
-                        <Label Text="{Binding Path=DateForecast.PrecipitationSum, StringFormat='{0} mm'}" HorizontalTextAlignment="End" FlexLayout.Grow="1"/>
-                    </FlexLayout>
+                        <!--Информация о ветре-->
+                        <FlexLayout Direction="Row" AlignItems="Center">
+                            <Label Text="Ветер:" FontSize="24"/>
+                            <Label Text="{Binding Path=DateForecast.WindSpeed, StringFormat='{0} km\h'}" HorizontalTextAlignment="End" FlexLayout.Grow="1"/>
+                            <Label Text="{Binding Path=DateForecast.WindDirection, Converter={StaticResource DirectionConverter}}" Margin="5, 0, 0, 0"/>
+                        </FlexLayout>
+                        <!--Количество осадков-->
+                        <FlexLayout Direction="Row" AlignItems="Center" Margin="0, 10, 0, 10">
+                            <Label Text="Осадки:" FontSize="24"/>
+                            <Label Text="{Binding Path=DateForecast.PrecipitationSum, StringFormat='{0} mm'}" HorizontalTextAlignment="End" FlexLayout.Grow="1"/>
+                        </FlexLayout>
+                    </StackLayout>
                 </StackLayout>
             </FlexLayout>
         </ScrollView>

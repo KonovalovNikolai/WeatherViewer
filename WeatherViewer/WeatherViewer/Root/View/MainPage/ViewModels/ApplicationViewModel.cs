@@ -61,13 +61,20 @@ namespace WeatherViewer {
         }
 
         public async Task GetForecast() {
-            if (_isBuisy) return;
+            if (_isBuisy)
+                return;
             _isBuisy = true;
 
-            CurrentForecast = await OpenMeteoAPI.GetCurrentWeatherAsync(_latitude, _longitude);
-            WeekForecast = await OpenMeteoAPI.GetWeekForecastAsync(_latitude, _longitude);
-            
-            _isBuisy = false;
+            try {
+                CurrentForecast = await OpenMeteoAPI.GetCurrentWeatherAsync(_latitude, _longitude);
+                WeekForecast = await OpenMeteoAPI.GetWeekForecastAsync(_latitude, _longitude);
+            }
+            catch {
+                throw;
+            }
+            finally {
+                _isBuisy = false;
+            }
         }
 
         public async Task GetDateForecast(DateTime date) {
@@ -75,9 +82,17 @@ namespace WeatherViewer {
                 return;
 
             _isBuisy = true;
-            var dateForecast = await OpenMeteoAPI.GetDateWeatherAsync(_latitude, _longitude, date);
-            DateForecast = new DateForecastViewModel(dateForecast);
-            _isBuisy = false;
+
+            try {
+                var dateForecast = await OpenMeteoAPI.GetDateWeatherAsync(_latitude, _longitude, date);
+                DateForecast = new DateForecastViewModel(dateForecast);
+            }
+            catch {
+                throw;
+            }
+            finally {
+                _isBuisy = false;
+            }
         }
 
         private void OnPropertyChanged(string propName) {
