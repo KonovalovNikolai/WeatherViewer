@@ -82,7 +82,7 @@
 
 # Скачать
 
-- [v1.0](https://github.com/KonovalovNikolai/WeatherViewer/releases/tag/untagged-b21c2cfdcc872a315a80)
+- [v1.0](https://github.com/KonovalovNikolai/WeatherViewer/releases/tag/v1.0)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
